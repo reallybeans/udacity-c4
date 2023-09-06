@@ -12,7 +12,7 @@ const logger = createLogger('TodosAccess')
 // TODO: Implement the dataLayer logic
 export class TodosAccess {
   constructor(
-    private readonly doc_client: DocumentClient = new XAWS.DynamoDB.DocmentClient(),
+    private readonly doc_client: DocumentClient = new XAWS.DynamoDB.DocumentClient(),
     private readonly todos_table = process.env.TODOS_TABLE,
     private readonly todos_index = process.env.INDEX_NAME
   ) {}
