@@ -1,7 +1,9 @@
 import { TodosAccess } from '../dataLayer/todosAccess'
 import { AttachmentUtils } from '../helpers/attachmentUtils'
 import { TodoItem } from '../models/TodoItem'
+import { TodoUpdate } from '../models/TodoUpdate'
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
+import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { createLogger } from '../utils/logger'
 import * as uuid from 'uuid'
 
@@ -12,7 +14,7 @@ const todosAccess = new TodosAccess()
 
 // Get todo function
 export async function getTodosForUser(userId: string) {
-  logger.info('Get todos user with params {}', userId)
+  logger.info('Get todos user with params', userId)
   return todosAccess.getAllTodos(userId)
 }
 
@@ -35,4 +37,35 @@ export async function createTodo(
     ...new_todo
   }
   return await todosAccess.createTodoItem(new_item)
+}
+
+// Update todo function
+export async function updateTodo(
+  userId: string,
+  todoId: string,
+  todoUpdate: UpdateTodoRequest
+): Promise<TodoUpdate> {
+  logger.info('Start update todo function')
+  return todosAccess.updateTodoItem(todoId, userId, todoUpdate)
+}
+
+// Delete todo function
+export async function deleteTodo(
+  userId: string,
+  todoId: string
+): Promise<string> {
+  logger.info('Start detele todo function')
+  return todosAccess.deleteTodoItem(todoId, userId)
+}
+
+// create url img of todo function
+export async function createAttachmentPresignedUrl(
+  todoId: string,
+  userId: string
+): Promise<string> {
+  logger.info(
+    `Start create Attachment Presigned Url todo function: ${userId} & ${todoId}`
+  )
+  const url = attachmentUtils.getUploadUrl(todoId)
+  return url as string
 }
